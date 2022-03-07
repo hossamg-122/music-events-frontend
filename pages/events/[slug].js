@@ -4,7 +4,7 @@ import { API_URL } from "../config";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../../styles/Event.module.css";
-import { FaPencilAlt, FaTimes } from 'react-icons/fa'
+import { FaPencilAlt, FaTimes } from "react-icons/fa";
 const EventPage = ({ event }) => {
   const deleteEvent = (e) => {
     console.log(e);
@@ -28,25 +28,24 @@ const EventPage = ({ event }) => {
             </a>{" "}
           </Link>
         </div>
-        <span>{event.data} at {event.time}</span>
+        <span>
+          {event.data} at {event.time}
+        </span>
         <h1>{event.name}</h1>
         {EveneventtsPage.image && (
           <div className={styles.image}>
-            <Image
-              src={event.image}
-              width={960}
-              height={600}
-            />
+            <Image src={event.image} width={960} height={600} />
           </div>
         )}
         <h3>Performance : </h3>
         <p> {event.description} </p>
-        <h3>Venue : {event.venue}  </h3>
+        <h3>Venue : {event.venue} </h3>
         <p> {event.address} </p>
-        <Link href="/events"><a className={styles.back} >{"<"}Go Back</a></Link>
+        <Link href="/events">
+          <a className={styles.back}>{"<"}Go Back</a>
+        </Link>
       </div>
-     
-     
+
       <h1>{event.name}</h1>
     </Layout>
   );
