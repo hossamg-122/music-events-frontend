@@ -1,20 +1,25 @@
 import EventItem from "../components/EventItem";
 import Layout from "../components/Layout";
 import { API_URL } from "./config";
-import Link from "next/link"
+import Link from "next/link";
 export default function Home({ events = [] }) {
   // this console log is at client side
-  // console.log(events)
+   console.log(events)
   return (
     <Layout>
       <div>
         <h1>Upcoming Events</h1>
         {events.length === 0 && <h3>No Events to show</h3>}
-       
-        {events.map((event) => (
-          <EventItem key={event.id} event={event} />
+
+        {events.map(({attributes,id}) => (
+          <EventItem key={id} event={attributes} />
         ))}
-        {events.length>0&&<Link href='/events' > <a className="btn-secondary" > View All Events</a></Link>}
+        {events.length > 0 && (
+          <Link href="/events">
+           
+            <a className="btn-secondary"> View All Events</a>
+          </Link>
+        )}
       </div>
     </Layout>
   );
@@ -26,15 +31,17 @@ export default function Home({ events = [] }) {
 // any change it will re-fetch the data
 
 export const getStaticProps = async () => {
-  const response = await fetch(`${API_URL}/api/events`);
+  console.log('first')
+  const response = await fetch(`${API_URL}/api/events?populate=*`);
   const events = await response.json();
   // this console log is on server
-  // console.log(events)
+   console.log(events)
   return {
     props: {
-      events:events.slice(0,3),
-      revalidate: 1,
+      events: events.data,
+      
     },
+    revalidate: 1,
   };
 };
 

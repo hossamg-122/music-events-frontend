@@ -1,11 +1,12 @@
 import React from "react";
-import Layout from "@components/Layout";
+import Layout from "../../components/Layout";
 import { API_URL } from "../config";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../../styles/Event.module.css";
 import { FaPencilAlt, FaTimes } from "react-icons/fa";
 const EventPage = ({ event }) => {
+  console.log(event);
   const deleteEvent = (e) => {
     console.log(e);
   };
@@ -13,40 +14,39 @@ const EventPage = ({ event }) => {
     <Layout>
       <div className={styles.event}>
         <div className={styles.controls}>
-          <Link href="/events/edit/[id]" as={`/events/edit/${event.id}`}>
-            {" "}
+          <Link href="/events/edit/[id]" as={`/events/edit/${event.slug}`}>
             <a>
-              {" "}
-              <FaPencilAlt /> Edit Event{" "}
-            </a>{" "}
+              <FaPencilAlt /> Edit Event
+            </a>
           </Link>
-          <Link href="#" onClick={deleteEvent}>
-            {" "}
-            <a>
-              {" "}
-              <FaTimes /> Delete Event
-            </a>{" "}
-          </Link>
+
+          <a className={styles.delete} href="#" onClick={deleteEvent}>
+            <FaTimes /> Delete Event
+          </a>
         </div>
         <span>
-          {event.data} at {event.time}
+        {new Date(event.date).toLocaleDateString('en-US')} at {event.time}
         </span>
         <h1>{event.name}</h1>
-        {EveneventtsPage.image && (
+        {event.image && (
           <div className={styles.image}>
-            <Image src={event.image} width={960} height={600} />
+            <Image
+              src={event.image.data.attributes.formats.medium.url}
+              width={960}
+              height={600}
+            />
           </div>
         )}
         <h3>Performance : </h3>
+        <p> {event.performers} </p>
+        <h3>Description : </h3>
         <p> {event.description} </p>
-        <h3>Venue : {event.venue} </h3>
+        <h3>Venue : {event.venu} </h3>
         <p> {event.address} </p>
         <Link href="/events">
           <a className={styles.back}>{"<"}Go Back</a>
         </Link>
       </div>
-
-      <h1>{event.name}</h1>
     </Layout>
   );
 };
@@ -57,12 +57,12 @@ export const getStaticPaths = async () => {
   const response = await fetch(`${API_URL}/api/events`);
   const events = await response.json();
 
-  const slugs = events.map((event) => event.slug);
-  const paths = slugs.map((slug) => {
+  const slugs = events?.data?.map(({ attributes, id }) => attributes.slug);
+  const paths = slugs.map((slug) => ({
     params: {
-      slug: slug;
-    }
-  });
+      slug: slug,
+    },
+  }));
   return {
     paths,
 
@@ -72,11 +72,13 @@ export const getStaticPaths = async () => {
   };
 };
 export const getStaticProps = async (context) => {
-  const response = await fetch(`${API_URL}/api/events/${context.params.slug}`);
+  const response = await fetch(
+    `${API_URL}/api/events?filters[slug]=${context.params.slug}&populate=*`
+  );
   const event = await response.json();
   return {
     props: {
-      event,
+      event: event.data[0].attributes,
     },
     revalidate: 1,
   };

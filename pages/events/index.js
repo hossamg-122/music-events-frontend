@@ -4,15 +4,15 @@ import { API_URL } from "../config";
 
 export default function EventsPage({ events = [] }) {
   // this console log is at client side
-  // console.log(events)
+   console.log(events)
   return (
     <Layout>
       <div>
         <h1>Events</h1>
         {events.length === 0 && <h3>No Events to show</h3>}
        
-        {events.map((event) => (
-          <EventItem key={event.id} event={event} />
+        {events.map(({attributes,id}) => (
+          <EventItem key={id} event={attributes} />
         ))}
       </div>
     </Layout>
@@ -25,13 +25,13 @@ export default function EventsPage({ events = [] }) {
 // any change it will re-fetch the data
 
 export const getStaticProps = async () => {
-  const response = await fetch(`${API_URL}/api/events`);
+  const response = await fetch(`${API_URL}/api/events?populate=*`);
   const events = await response.json();
   // this console log is on server
-  // console.log(events)
+  
   return {
     props: {
-      events,
+      events: events.data,
      
     },
     revalidate: 1,
