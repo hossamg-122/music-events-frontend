@@ -8,7 +8,7 @@ const EventItem = ({ event }) => {
 
   return <div className={styles.event} >
   <div className={styles.img}>
-      <Image src={event.image?event.image.data.attributes.formats.thumbnail.url:defaultImage} width={170} height={100}/>
+      <Image src={event.image.data?event.image.data.attributes.formats.medium.url:defaultImage} width={170} height={100}/>
       
   </div>
   <div className={styles.info} >
