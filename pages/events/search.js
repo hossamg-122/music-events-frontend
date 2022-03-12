@@ -61,7 +61,7 @@ export const getServerSideProps = async ({ query: { term } }) => {
   );
 
   const response = await fetch(
-    `${API_URL}/api/events?${query}`
+    `${API_URL}/api/events?${query}&populate=*`
   );
 
   // this code if we want to search for a specific field
