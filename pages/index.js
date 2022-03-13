@@ -31,11 +31,11 @@ export default function Home({ events = [] }) {
 // any change it will re-fetch the data
 
 export const getStaticProps = async () => {
-  console.log('first')
+ 
   const response = await fetch(`${API_URL}/api/events?populate=*`);
   const events = await response.json();
   // this console log is on server
-   console.log(events)
+
   return {
     props: {
       events: events.data,
