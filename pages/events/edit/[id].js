@@ -12,13 +12,24 @@ import { Formik, Form } from "formik";
 import * as yup from "yup";
 import moment from "moment"
 import InputHandler from "../../../components/InputHandler";
-
+import Modal from "../../../components/modal";
+import  ImageUpload  from "../../../components/ImageUpload";
 const Edit = ({event}) => {
   const router = useRouter();
  const [ imagePreview,setImagePreview ] = useState(
     event?.attributes?.image?.data?event.attributes.image.data.attributes.formats.medium.url:null
  )
-  console.log(event)
+ const [showModal,setShowModal] = useState(false)
+
+  const handleModalClose = () => {
+      setShowModal(false)
+  }
+  const imageUploaded =async () =>{
+     const res = await fetch(`${API_URL}/events/${event.id}`)
+     const data = await res.json()
+     setImagePreview(data.attributes.image.data.attributes.formats.medium.url)
+     handleModalClose()
+  }
   const initialValues = {
     name: event?.attributes?.name,
     performers: event?.attributes?.performers,
@@ -116,10 +127,13 @@ const Edit = ({event}) => {
 </div>
     }
     <div>
-       <button className="btn-secondary" >
+       <button className="btn-secondary" onClick={()=>setShowModal(true)}>
            <FaImage /> Set Image
            </button> 
     </div>
+    <Modal show={showModal} onClose={handleModalClose}>
+      <ImageUpload id={event.id} imageUploaded={imageUploaded} />
+    </Modal>
     </Layout>
   );
 };
