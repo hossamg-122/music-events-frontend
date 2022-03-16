@@ -25,6 +25,11 @@ const Header = () => {
                 </Link>
               </li>
               <li>
+                <Link href='/account/login'>
+                  <a className="btn-secondary btn-icon" ><FaSignInAlt/> Login</a>
+                </Link>
+              </li>
+              <li>
                 <Link href='/account/dashboard'>
                   <a>Dashboard</a>
                 </Link>
