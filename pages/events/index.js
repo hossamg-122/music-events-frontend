@@ -1,9 +1,9 @@
 import EventItem from "../../components/EventItem";
 import Layout from "../../components/Layout";
-
 import { API_URL,PER_PAGE } from "../config";
 import Pagination from "../../components/Pagination";
 export default function EventsPage({ events = [], page, total }) {
+
   // this console log is at client side
   
   return (
@@ -27,13 +27,14 @@ export default function EventsPage({ events = [], page, total }) {
 // any change it will re-fetch the data
 
 export const getServerSideProps = async ({ query: { page = 1 } }) => {
+
   const start = page == 1 ? 0 : (page - 1) * PER_PAGE;
 
   const response = await fetch(
     `${API_URL}/api/events?pagination[limit]=${PER_PAGE}&pagination[start]=${start}&pagination[withCount]=true&populate=*`
   );
   const events = await response.json();
-  console.log(events);
+  
   // const totalResponse = await fetch(`${API_URL}/api/events?pagination[withCount]=true`);
   // const total = await totalResponse.json();
   // console.log("total",total)
