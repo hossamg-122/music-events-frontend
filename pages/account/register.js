@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FaUser } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AuthContext from "../../context/AuthContext";
 import Link from "next/link";
 import Layout from "../../components/Layout";
 import styles from "../../styles/AuthForm.module.css";
@@ -9,6 +10,8 @@ import { Formik, Form } from "formik";
 import * as yup from "yup";
 import InputHandler from "../../components/InputHandler";
 const Register = () => {
+  const { register, error } = useContext(AuthContext);
+
   const initialValues = {
     user_name: "",
     email: "",
@@ -25,7 +28,11 @@ const Register = () => {
       .oneOf([yup.ref("password"), null], "Passwords must match"),
   });
   const handleSubmit = (values) => {
-    console.log(values);
+    register({
+      username: values.user_name,
+      email: values.email,
+      password: values.password,
+    });
   };
   return (
     <Layout title="User Registration">
