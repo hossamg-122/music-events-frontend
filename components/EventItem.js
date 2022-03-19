@@ -5,10 +5,10 @@ import Image from "next/image";
 import styles from "../styles/EventItem.module.css"
 import defaultImage from "../public/images/event-default.png"
 const EventItem = ({ event }) => {
-
+console.log(event)
   return <div className={styles.event} >
   <div className={styles.img}>
-      <Image src={event.image.data?event.image.data.attributes.formats.medium.url:defaultImage} width={170} height={100}/>
+      <Image src={event.image.data?event.image.data.attributes.formats.small.url:defaultImage} width={170} height={100}/>
       
   </div>
   <div className={styles.info} >
