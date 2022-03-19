@@ -8,6 +8,7 @@ import Link from "next/link";
 import styles from "../../styles/Event.module.css";
 import { FaPencilAlt, FaTimes } from "react-icons/fa";
 import { useRouter } from "next/router";
+import EventMap from "../../components/EventMap";
 const EventPage = ({ event }) => {
   const router = useRouter();
   const deleteEvent = async () => {
@@ -76,7 +77,8 @@ const EventPage = ({ event }) => {
         <h3>Description : </h3>
         <p> {event.attributes.description} </p>
         <h3>Venue : {event.attributes.venu} </h3>
-        <p> {event.address} </p>
+        <p> {event.attributes.address} </p>
+        <EventMap event={event} />
         <Link href="/events">
           <a className={styles.back}>{"<"}Go Back</a>
         </Link>
