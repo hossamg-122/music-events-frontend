@@ -141,12 +141,12 @@ const Edit = ({event}) => {
 export default Edit;
 
 export const getServerSideProps = async (context) => {
-  
+  console.log(context.req.headers.cookie)
     const response = await fetch(
       `${API_URL}/api/events/${context.params.id}?populate=*`
     );
     const event = await response.json();
- 
+
     return {
       props: {
         event: event.data,
