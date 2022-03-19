@@ -11,7 +11,7 @@ import * as yup from "yup";
 import InputHandler from "../../components/InputHandler";
 const Register = () => {
   const { register, error } = useContext(AuthContext);
-
+  useEffect(() => error && toast.error(error))
   const initialValues = {
     user_name: "",
     email: "",
