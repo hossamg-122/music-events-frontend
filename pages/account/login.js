@@ -11,6 +11,8 @@ import * as yup from "yup";
 import InputHandler from "../../components/InputHandler"
 const login = () => {
   const { login, error } = useContext(AuthContext)
+  useEffect(() => error && toast.error(error))
+  
   const initialValues = {
     email: "",
     password: "",
@@ -20,7 +22,7 @@ const login = () => {
     password: yup.string().required("required"),
   });
   const handleSubmit=(values) => {
-      console.log(values)
+      
       login({ email:values.email, password:values.password })
   }
   return (
